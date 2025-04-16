@@ -1,0 +1,51 @@
+esphome:
+  name: cabinet-name
+  friendly_name: cabinet_name
+  includes: 
+    - digital_caliper.h
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+  
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "IWoundgGleSkQrPQbBr+U1oEJvFCr7K3R9vW/sd01Nw="
+
+ota:
+  - platform: esphome
+    password: "327c21529405179e7e8182e1c0cb4458"
+
+
+wifi:
+  networks:
+  - ssid: "CARE Group"
+    password: "p8g6x-19ah2-p3sye"
+  - ssid: "taki"
+    password: "12346678910"
+
+captive_portal:
+
+sensor:
+- platform: custom
+  lambda: |-
+    auto my_sensor = new MyCustomSensor();
+    App.register_component(my_sensor);
+    return {my_sensor};
+  sensors:
+    name: "My Custom Sensor"
+    state_topic: "esphome/caliper/value"
+    accuracy_decimals: 2
+    unit_of_measurement: "mm"
+
+mqtt:
+  broker: "192.168.2.230"
+  port: 1883
+  topic_prefix: "esphome/caliper"
+  discovery: false 
+
